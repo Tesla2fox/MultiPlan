@@ -1,0 +1,25 @@
+127.0.0.1	localhost
+127.0.1.1	cola-ThinkStation-P300
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+##Google.com.hk 谷歌香港
+2404:6800:8005::2e www.google.com.hk
+2404:6800:8005::2e images.google.com.hk
+2404:6800:8005::2e video.google.com.hk
+2404:6800:8005::2e maps.google.com.hk
+2404:6800:8005::2e news.google.com.hk
+2404:6800:8005::2e translate.google.com.hk
+2404:6800:8005::2e blogsearch.google.com.hk
+2404:6800:8005::2e picasaweb.google.com.hk
+2404:6800:8005::2e toolbar.google.com.hk
+2404:6800:8005::2e desktop.google.com.hk
+2404:6800:8005::2e id.google.com.hk
+2404:6800:8005::2e wenda.google.com.hk
+2404:6800:8005::67 www.googlechinawebmaster.com
+
