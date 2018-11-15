@@ -11,6 +11,7 @@
 #include "polygonob.h"
 
 #include "code/pathPlanning.h"
+#include "dubinsmodel.hpp"
 
 #include <vector>
 #include <map>
@@ -205,6 +206,7 @@ void MainWindow::mousePress(QMouseEvent *event)
     {
         switch (this->planEvent)
         {
+        case QPlanEvent::Scout:
         case QPlanEvent::Aggregation:
         {
             //            int x_pos = event->pos().x();
@@ -232,7 +234,6 @@ void MainWindow::mousePress(QMouseEvent *event)
 
             qDebug()<<" currentlocation " << LclickTime;
             LclickTime ++;
-
 
             if(false)
             {
@@ -314,6 +315,27 @@ void MainWindow::mousePress(QMouseEvent *event)
             ui->QGraph->replot();
             break;
         }
+        case QPlanEvent::virtualTarget:
+        {
+
+            int x_pos = event->pos().x();
+            int y_pos = event->pos().y();
+            float x_val = ui->QGraph->xAxis->pixelToCoord(x_pos);
+            float y_val = ui->QGraph->yAxis->pixelToCoord(y_pos);
+
+            v_virtualTarget.push_back(bgeo::DPoint(x_val,y_val));
+            QCPItemEllipse *circle = new QCPItemEllipse(ui->QGraph);
+            circle->topLeft->setCoords(x_val - 2, y_val +2);
+            circle->bottomRight->setCoords(x_val +2 , y_val -2);
+
+            QCPItemText *txt = new QCPItemText(ui->QGraph);
+            txt->position->setCoords(x_val, y_val);
+            QString QSt_index = QString("VirtualTarget");
+            txt->setText(QSt_index);
+            //this->m_aplan.setOb(x_val,y_val);
+            ui->QGraph->replot();
+            break;
+        }
         default:
             break;
         }
@@ -322,9 +344,9 @@ void MainWindow::mousePress(QMouseEvent *event)
     {
         switch (this->planEvent)
         {
+        case QPlanEvent::Scout:
         case QPlanEvent::Aggregation:
         {
-
             //            qDebug() << "TargetPnt.x  =  " << x_val;
             //            qDebug() << "TargetPnt.y  =  " << y_val;
             int x_pos = event->pos().x();
@@ -542,7 +564,8 @@ void MainWindow::on_pushButton_4_clicked()
     if((LclickTime ==4 )&&(RclickTime ==4))
         //excate the motion planning
     {
-
+        LclickTime = 0;
+        RclickTime = 0;
         if(true)
         {
             while (this->staPloNum<ui->QGraph->plottableCount())
@@ -567,13 +590,13 @@ void MainWindow::on_pushButton_4_clicked()
 
         currentlocation.agent.pts = MainData.currentLocationGps;
 
-        for(size_t j = 0; j<4;j++)
-        {
-            //            currentlocation.agent.pts[j].lat =39.96248664;
-            //            currentlocation.agent.pts[j].lon =116.3041191;
-            currentlocation.agent.pts[j].lat =39.96248664;
-            currentlocation.agent.pts[j].lon =116.3041191;
-        }
+//        for(size_t j = 0; j<4;j++)
+//        {
+//            //            currentlocation.agent.pts[j].lat =39.96248664;
+//            //            currentlocation.agent.pts[j].lon =116.3041191;
+//            currentlocation.agent.pts[j].lat =39.96248664;
+//            currentlocation.agent.pts[j].lon =116.3041191;
+//        }
 
 
         for (size_t  j = 0 ;  j < 4 ; j++)
@@ -604,8 +627,8 @@ void MainWindow::on_pushButton_4_clicked()
             //            targetLocation.target.lat = 39.96259209;
             //            targetLocation.target.lon = 116.3038707;
 
-            targetLocation.target.lat = 39.96257281;
-            targetLocation.target.lon = 116.3038457;
+            // targetLocation.target.lat = 39.96257281;
+            // targetLocation.target.lon = 116.3038457;
 
 
             auto disMark = distributedMotionPlanningHuman(res,targetLocation,currentlocation,this->m_mode,NULL,humanpathUnit);
@@ -625,12 +648,13 @@ void MainWindow::on_pushButton_4_clicked()
                     GPS2Local(res->p_path.pts[i].lat,res->p_path.pts[i].lon,0,&mx,&my,NULL);
                     bgeo::DPoint pntUnit(mx,my);
                     this->MainData.Path.push_back(pntUnit);
-                    //                    this->MainData.drawPath();
+                    //this->MainData.drawPath();
                 }
-                if(j<3)
-                    continue;
+//                if(j<3)
+//                    continue;
                 double len = bg::length(MainData.Path);
                 qDebug()<<"the agent id is "<<j <<"the length is "<<len;
+                MainData.Path = getDubinsPath(MainData.Path);
                 this->MainData.drawPath(j);
             }
             std::cout<<" disMark = " <<disMark<< std::endl;
@@ -689,8 +713,7 @@ void MainWindow::on_pushButton_8_clicked()
         }
         RegionData.size = vx.size();
 
-        auto disSearchMark  =distributedSearchMotionPlanningHuman(res,RegionData,currentlocation,0,nullptr,humanpathUnit);
-
+        auto disSearchMark  = distributedSearchMotionPlanningHuman(res,RegionData,currentlocation,0,nullptr,humanpathUnit);
 
         vx.clear();
         vy.clear();
@@ -711,7 +734,7 @@ void MainWindow::on_pushButton_8_clicked()
             double len = bg::length(MainData.Path);
             qDebug()<<"the agent id is "<<"the length is "<<len;
             //            this->MainData.drawPath(j);
-
+//             MainData.Path = getDubinsPath(MainData.sPath);
             this->MainData.drawPath(0);
             this->MainData.Path.clear();
         }
@@ -720,6 +743,8 @@ void MainWindow::on_pushButton_8_clicked()
     }
 }
 
+
+// redraw the plot
 void MainWindow::on_pushButton_5_clicked()
 {
     if(true)
@@ -758,7 +783,6 @@ void MainWindow::on_pushButton_7_clicked()
 
     st_time +="save";
 
-
     QString filename = QString::fromStdString(st_time);
 
     //QString file()
@@ -766,10 +790,11 @@ void MainWindow::on_pushButton_7_clicked()
     ui->QGraph->saveJpg(filename);
 }
 
+
+// draw the grid for aggregation
 void MainWindow::on_pushButton_9_clicked()
 {
     //this->m_aplan.loadMap(MainMap);
-
     //    if (true)
     //    {
     //        if (false)
@@ -788,7 +813,89 @@ void MainWindow::on_pushButton_9_clicked()
     //            }
     //        }
     //    }
-
     //    this->m_aplan.m_map.drawgrid(ob::MapType::AggregationMap);
     this->m_aplan.m_map.drawgrid(ob::MapType::GroupMap);
+}
+
+
+
+void MainWindow::on_ComparisonSearch_clicked()
+{
+    if(this->sRegionData)
+    {
+        long pmID[4] = {0,1,2,3};
+        if(true)
+        {
+            while (this->staPloNum<ui->QGraph->plottableCount())
+            {
+                ui->QGraph->removePlottable(ui->QGraph->plottableCount()-1);
+            }
+            while (this->staItemNum<ui->QGraph->itemCount())
+            {
+                ui->QGraph->removeItem(ui->QGraph->itemCount()-1);
+            }
+        }
+
+        PathInfo *res = new PathInfo;
+
+
+        res->p_path.pts = new PointGPS[2000];
+
+        AgentInfo currentlocation;
+        currentlocation.agent.size = 4;
+        currentlocation.agentID = 1;
+        currentlocation.agent.ID  = pmID;
+
+        currentlocation.agent.pts = MainData.currentLocationGps;
+        humanPathInfo humanpathUnit;
+
+        humanpathUnit.avoid_Point.pts = MainData.humanAvdPointGps[mID];
+        humanpathUnit.avoid_Point.size = MainData.avdSize[mID];
+
+        humanpathUnit.way_Point.pts = MainData.humanWayPointGps[mID];
+        humanpathUnit.way_Point.size = MainData.waySize[mID];
+
+
+        this->MainData.Path.clear();
+        currentlocation.agentID = mID;
+        PointArrary RegionData;
+        RegionData.pts = new PointGPS[20];
+        for(size_t i = 0; i <vx.size(); i++)
+        {
+            Local2GPS(vx.at(i),vy.at(i),0,&RegionData.pts[i].lat,&RegionData.pts[i].lon,nullptr);
+        }
+        RegionData.size = vx.size();
+
+        auto disSearchMark  = distributedSearchMotionPlanningHuman(res,RegionData,currentlocation,0,nullptr,humanpathUnit);
+
+        vx.clear();
+        vy.clear();
+
+        if(disSearchMark<0)
+        {
+
+        }
+        else
+        {
+            for (size_t  i = 0 ; i< res->p_path.size; i++)
+            {
+                double mx; double my;
+                GPS2Local(res->p_path.pts[i].lat,res->p_path.pts[i].lon,0,&mx,&my,NULL);
+                bgeo::DPoint pntUnit(mx,my);
+                this->MainData.Path.push_back(pntUnit);
+            }
+            for (size_t targetID = 0; targetID < v_virtualTarget.size(); )
+            for (size_t i = 0; i < MainData.Path.size();i++)
+            {
+
+            }
+            double len = bg::length(MainData.Path);
+            qDebug()<<"the agent id is "<<"the length is "<<len;
+            //            this->MainData.drawPath(j);
+            //             MainData.Path = getDubinsPath(MainData.sPath);
+            this->MainData.drawPath(0);
+            this->MainData.Path.clear();
+        }
+        qDebug()<<"disSearchMark"<<disSearchMark;
+    }
 }

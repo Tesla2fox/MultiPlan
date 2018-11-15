@@ -19,7 +19,9 @@ enum  QPlanEvent
     Aggregation,
     search,
     human_avoid,
-    human_way
+    human_way,
+    Scout,
+    virtualTarget
 };
 enum GMode{
     AgentMode,
@@ -59,6 +61,8 @@ private slots:
 
     void on_pushButton_9_clicked();
 
+    void on_ComparisonSearch_clicked();
+
 private:
     Ui::MainWindow *ui;
     ob::Obmap MainMap;
@@ -92,6 +96,7 @@ private:
     impl::MapData _OutLine;
     impl::MapData _inLine;
     // input the region data or not;
+    std::vector<bgeo::DPoint> v_virtualTarget;
 };
 
 #endif // MAINWINDOW_H

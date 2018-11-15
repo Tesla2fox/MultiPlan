@@ -15,11 +15,53 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" colspan="6">
+    <item row="4" column="2">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>switchMode</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="text">
+       <string>ClearPlot</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="4">
+     <widget class="QPushButton" name="pushButton_9">
+      <property name="text">
+       <string>A_drawDebug</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Debug_aPP</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="7">
      <widget class="QCustomPlot" name="QGraph" native="true"/>
     </item>
-    <item row="1" column="0" colspan="6">
+    <item row="1" column="0" colspan="7">
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="text">
+         <string>DP2P</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_8">
+        <property name="text">
+         <string>Dsearch</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QComboBox" name="comboBox">
         <property name="styleSheet">
@@ -33,22 +75,32 @@ font: 12pt &quot;Ubuntu&quot;;</string>
         </item>
         <item>
          <property name="text">
-          <string>P2P</string>
+          <string>Aggregation</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>search</string>
+          <string>Search</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>human_avoid</string>
+          <string>Human_avoid</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>human_way</string>
+          <string>Human_way</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Scout</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>VirtualTarget</string>
          </property>
         </item>
        </widget>
@@ -86,73 +138,38 @@ font: 12pt &quot;Ubuntu&quot;;</string>
         </item>
         <item>
          <property name="text">
-          <string>GrouoMode</string>
+          <string>GroupMode</string>
          </property>
         </item>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>P2PMotionPlanning</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>searchMotionPlanning</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="text">
-         <string>switch</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="text">
-       <string>DP2P</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3">
-     <widget class="QPushButton" name="pushButton_5">
-      <property name="text">
-       <string>clear</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="4">
+    <item row="4" column="5">
      <widget class="QPushButton" name="pushButton_6">
       <property name="text">
-       <string>debug</string>
+       <string>S_DrawDebug</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="5">
+    <item row="4" column="6">
      <widget class="QPushButton" name="pushButton_7">
       <property name="text">
-       <string>save</string>
+       <string>SavePic</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="pushButton_8">
+    <item row="4" column="1">
+     <widget class="QPushButton" name="pushButton_2">
       <property name="text">
-       <string>Dsearch</string>
+       <string>Debug_cPP</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="pushButton_9">
+    <item row="3" column="0" colspan="2">
+     <widget class="QPushButton" name="ComparisonSearch">
       <property name="text">
-       <string>test_avdPnt</string>
+       <string>ComparisonSearch</string>
       </property>
      </widget>
     </item>

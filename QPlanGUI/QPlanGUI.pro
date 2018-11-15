@@ -62,7 +62,8 @@ SOURCES += main.cpp\
     splan.cpp \
     code/demodata.cpp \
     stree.cpp \
-    Obstacles.cpp
+    Obstacles.cpp \
+    dubins.cpp
 
 HEADERS  += mainwindow.h \
     bgeometry.h \
@@ -80,7 +81,9 @@ HEADERS  += mainwindow.h \
     code/PointArray.h \
     code/demodata.h \
     stree.h \
-    Obstacles.hpp
+    Obstacles.hpp \
+    dubins.h \
+    dubinsmodel.hpp
 
 FORMS    += mainwindow.ui
 
